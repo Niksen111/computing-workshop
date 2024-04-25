@@ -1,20 +1,22 @@
 package hw1
 
-import org.la4j.Matrices
 import org.la4j.Matrix
 import org.la4j.inversion.GaussJordanInverter
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
 
-class ConditionNumbers private constructor() {
+// Condition Numbers
+class ConditionNums private constructor() {
+
+    // Criteria
     companion object {
-        fun spectralCriterion(matrix: Matrix): Double {
+        fun spectralCr(matrix: Matrix): Double {
             val inverted = GaussJordanInverter(matrix).inverse()
             return abs(matrix.determinant() * inverted.determinant())
         }
 
-        fun ortegaCriterion(matrix: Matrix): Double {
+        fun ortegaCr(matrix: Matrix): Double {
             var product = 1.0
             val N = matrix.rows()
             for (i in 0..<N) {
@@ -29,7 +31,7 @@ class ConditionNumbers private constructor() {
             return product / abs(matrix.determinant())
         }
 
-        fun angularCriterion(matrix: Matrix): Double {
+        fun angularCr(matrix: Matrix): Double {
             val inverted = GaussJordanInverter(matrix).inverse()
             var condA = 0.0
             val N = matrix.rows()
