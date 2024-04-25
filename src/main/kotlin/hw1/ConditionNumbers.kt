@@ -7,7 +7,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
 
-class ConditionNumbers {
+class ConditionNumbers private constructor() {
     companion object {
         fun spectralCriterion(matrix: Matrix): Double {
             val inverted = GaussJordanInverter(matrix).inverse()
