@@ -5,11 +5,12 @@ import org.la4j.Matrix
 import org.la4j.Vector
 import org.la4j.linear.GaussianSolver
 import kotlin.math.abs
+import kotlin.random.Random
+import kotlin.random.asJavaRandom
 
 fun performCalculations(A: Matrix, variation: Matrix, b: Vector) {
     println("Исходная матрица:")
     println(A)
-    println()
 
     println("Правая часть уравнения:")
     println(b)
@@ -20,14 +21,21 @@ fun performCalculations(A: Matrix, variation: Matrix, b: Vector) {
     println(solution)
     println()
 
-    println("Решение варьированного уравнения:")
+    println("Вариация:")
+    println(variation)
+
+    println("Варьированная матрица:")
     val Av = A.add(variation)
+    println(Av)
+
+    println("Решение варьированного уравнения:")
     val solutionVariated = GaussianSolver(Av).solve(b)
     println(solutionVariated)
     println()
 
     println("Погрешность решения:")
-    val solutionError = solution.subtract(solutionVariated).each { _, value-> abs(value) }
+    val solutionError = solution.subtract(solutionVariated)
+    solution.each { _, value-> abs(value) }
     println(solutionError)
     println()
 
@@ -42,7 +50,10 @@ fun performCalculations(A: Matrix, variation: Matrix, b: Vector) {
 }
 
 fun tests() {
-
+    val A = MatrixGenerator.hilbertMatrix(2)
+    val variation = Matrix.constant(2, 2, 1e-2 - 1e-10)
+    val b = Vector.random(2, Random.asJavaRandom())
+    performCalculations(A, variation, b)
 }
 
 fun main(args: Array<String>) {

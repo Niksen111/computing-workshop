@@ -19,7 +19,7 @@ class MatrixGenerator private constructor() {
         }
 
         fun randomTridiagonalMatrix(n: Int): Matrix {
-            val matrix: Matrix = Matrix.random(n, n, Random.Default.asJavaRandom())
+            val matrix: Matrix = Matrix.random(n, n, Random.asJavaRandom())
             for (i in 0..<n) {
                 for (j in 0..<n) {
                     if (abs(i - j) > 1) {
