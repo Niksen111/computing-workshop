@@ -3,8 +3,6 @@ package hw1
 import org.la4j.Matrix
 import org.la4j.Vector
 import kotlin.math.abs
-import kotlin.random.Random
-import kotlin.random.asJavaRandom
 
 class MatrixGenerator private constructor() {
     companion object {

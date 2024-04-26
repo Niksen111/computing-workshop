@@ -1,8 +1,8 @@
 package hw1
 
+import dnl.utils.text.table.TextTable
 import org.la4j.LinearAlgebra.InverterFactory
 import org.la4j.Matrix
-import org.la4j.inversion.GaussJordanInverter
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
@@ -12,6 +12,19 @@ class ConditionNums private constructor() {
 
     // Criteria
     companion object {
+        fun criteriaComputation(A: Matrix, Av: Matrix, variation: Matrix) {
+            println("Качественные критерии:")
+            val header = arrayOf("Варьирование", "Спектральный", "Объемный", "Угловой")
+            val data = arrayOf(
+                arrayOf(0.0, ConditionNums.spectralCr(A), ConditionNums.ortegaCr(A), ConditionNums.angularCr(A)),
+                arrayOf(variation[0, 0], ConditionNums.spectralCr(Av), ConditionNums.ortegaCr(Av), ConditionNums.angularCr(Av))
+            )
+            val table = TextTable(header, data)
+            table.printTable()
+            println()
+            println()
+        }
+
         fun spectralCr(matrix: Matrix): Double {
             val inverted = InverterFactory.NO_PIVOT_GAUSS.create(matrix).inverse()
             return abs(matrix.determinant() * inverted.determinant())

@@ -4,8 +4,6 @@ import dnl.utils.text.table.TextTable
 import org.la4j.LinearAlgebra.SolverFactory
 import org.la4j.Matrix
 import org.la4j.Vector
-import org.la4j.linear.GaussianSolver
-import org.la4j.linear.JacobiSolver
 import java.text.DecimalFormat
 import kotlin.math.abs
 import kotlin.random.Random
@@ -43,16 +41,7 @@ fun performCalculations(A: Matrix, variation: Matrix, b: Vector) {
     println(solutionError.toCSV(formatter))
     println()
 
-    println("Качественные критерии:")
-    val header = arrayOf("Варьирование", "Спектральный", "Объемный", "Угловой")
-    val data = arrayOf(
-        arrayOf(0.0, ConditionNums.spectralCr(A), ConditionNums.ortegaCr(A), ConditionNums.angularCr(A)),
-        arrayOf(variation[0, 0], ConditionNums.spectralCr(Av), ConditionNums.ortegaCr(Av), ConditionNums.angularCr(Av))
-    )
-    val table = TextTable(header, data)
-    table.printTable()
-    println()
-    println()
+    ConditionNums.criteriaComputation(A, Av, variation)
 }
 
 fun hilbert2x2MatrixTest() {
