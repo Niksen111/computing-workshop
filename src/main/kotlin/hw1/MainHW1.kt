@@ -1,42 +1,46 @@
 package hw1
 
 import dnl.utils.text.table.TextTable
+import org.la4j.LinearAlgebra.SolverFactory
 import org.la4j.Matrix
 import org.la4j.Vector
 import org.la4j.linear.GaussianSolver
+import org.la4j.linear.JacobiSolver
+import java.text.DecimalFormat
 import kotlin.math.abs
 import kotlin.random.Random
 import kotlin.random.asJavaRandom
 
 fun performCalculations(A: Matrix, variation: Matrix, b: Vector) {
+    val formatter = DecimalFormat("0.00000000000")
     println("Исходная матрица:")
-    println(A)
+    println(A.toCSV(formatter))
 
     println("Правая часть уравнения:")
-    println(b)
+    println(b.toCSV(formatter))
     println()
 
     println("Решение уравнения:")
-    val solution = GaussianSolver(A).solve(b)
-    println(solution)
+    val solution = SolverFactory.SMART.create(A).solve(b)
+    println(solution.toCSV(formatter))
     println()
 
     println("Вариация:")
-    println(variation)
+    println(variation.toCSV(formatter))
 
     println("Варьированная матрица:")
     val Av = A.add(variation)
-    println(Av)
+    println(Av.toCSV(formatter))
 
     println("Решение варьированного уравнения:")
-    val solutionVariated = GaussianSolver(Av).solve(b)
-    println(solutionVariated)
+    val solutionVariated = SolverFactory.SMART.create(Av).solve(b)
+    println(solutionVariated.toCSV(formatter))
     println()
 
     println("Погрешность решения:")
     val solutionError = solution.subtract(solutionVariated)
     solution.each { _, value-> abs(value) }
-    println(solutionError)
+    println(solutionError.toCSV(formatter))
     println()
 
     println("Качественные критерии:")
@@ -47,13 +51,46 @@ fun performCalculations(A: Matrix, variation: Matrix, b: Vector) {
     )
     val table = TextTable(header, data)
     table.printTable()
+    println()
+    println()
+}
+
+fun hilbert2x2MatrixTest() {
+    val n = 2
+    val A = MatrixGenerator.hilbertMatrix(n)
+    val variation = Matrix.constant(n, n, 1e-2 - 1e-10)
+    val b = Vector.random(n, Random.asJavaRandom())
+    performCalculations(A, variation, b)
+}
+
+fun hilbert8x8MatrixTest() {
+    val n = 8
+    val A = MatrixGenerator.hilbertMatrix(n)
+    val variation = Matrix.constant(n, n, 1e-2 - 1e-10)
+    val b = Vector.random(n, Random.asJavaRandom())
+    performCalculations(A, variation, b)
+}
+
+fun tridiagonal6x6MatrixTest() {
+    val n = 6
+    val A = MatrixGenerator.tridiagonalMatrix(n)
+    val variation = Matrix.constant(n, n, 1e-2 - 1e-10)
+    val b = Vector.random(n, Random.asJavaRandom())
+    performCalculations(A, variation, b)
+}
+
+fun lebedevaMatrixTest() {
+    val A = MatrixGenerator.lebedevaAMatrix
+    val variation = Matrix.constant(3, 3, 1e-2 - 1e-10)
+    val b = MatrixGenerator.lebedevaBVector
+    performCalculations(A, variation, b)
 }
 
 fun tests() {
-    val A = MatrixGenerator.hilbertMatrix(2)
-    val variation = Matrix.constant(2, 2, 1e-2 - 1e-10)
-    val b = Vector.random(2, Random.asJavaRandom())
-    performCalculations(A, variation, b)
+    hilbert2x2MatrixTest()
+    hilbert8x8MatrixTest()
+    tridiagonal6x6MatrixTest()
+    lebedevaMatrixTest()
 }
 
 fun main(args: Array<String>) {

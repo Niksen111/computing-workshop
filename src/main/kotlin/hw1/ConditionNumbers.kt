@@ -1,5 +1,6 @@
 package hw1
 
+import org.la4j.LinearAlgebra.InverterFactory
 import org.la4j.Matrix
 import org.la4j.inversion.GaussJordanInverter
 import kotlin.math.abs
@@ -12,7 +13,7 @@ class ConditionNums private constructor() {
     // Criteria
     companion object {
         fun spectralCr(matrix: Matrix): Double {
-            val inverted = GaussJordanInverter(matrix).inverse()
+            val inverted = InverterFactory.NO_PIVOT_GAUSS.create(matrix).inverse()
             return abs(matrix.determinant() * inverted.determinant())
         }
 
@@ -32,7 +33,7 @@ class ConditionNums private constructor() {
         }
 
         fun angularCr(matrix: Matrix): Double {
-            val inverted = GaussJordanInverter(matrix).inverse()
+            val inverted = InverterFactory.NO_PIVOT_GAUSS.create(matrix).inverse()
             var condA = 0.0
             val N = matrix.rows()
             for (i in 0..<N) {

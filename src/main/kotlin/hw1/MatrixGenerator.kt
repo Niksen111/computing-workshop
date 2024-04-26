@@ -1,6 +1,7 @@
 package hw1
 
 import org.la4j.Matrix
+import org.la4j.Vector
 import kotlin.math.abs
 import kotlin.random.Random
 import kotlin.random.asJavaRandom
@@ -18,17 +19,27 @@ class MatrixGenerator private constructor() {
             return matrix
         }
 
-        fun randomTridiagonalMatrix(n: Int): Matrix {
-            val matrix: Matrix = Matrix.random(n, n, Random.asJavaRandom())
+        fun tridiagonalMatrix(n: Int): Matrix {
+            val matrix: Matrix = Matrix.zero(n, n)
             for (i in 0..<n) {
                 for (j in 0..<n) {
-                    if (abs(i - j) > 1) {
-                        matrix[i, j] = 0.0
+                    if (abs(i - j) <= 1) {
+                        matrix[i, j] = i + j + 1.0
                     }
                 }
             }
 
             return matrix
         }
+
+        val lebedevaAMatrix = Matrix.from2DArray(arrayOf(
+            doubleArrayOf(3.278164, 1.046583, -1.378574),
+            doubleArrayOf(1.046583, 2.975937, 0.934251),
+            doubleArrayOf(-1.378574, 0.934251, 4.836173)
+        ))
+
+        val lebedevaBVector = Vector.fromArray(
+            doubleArrayOf(-0.527466, 2.526877, 5.165441)
+        )
     }
 }
