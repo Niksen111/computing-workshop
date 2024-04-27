@@ -16,8 +16,8 @@ class ConditionNums private constructor() {
             println("Качественные критерии:")
             val header = arrayOf("Варьирование", "Спектральный", "Объемный", "Угловой")
             val data = arrayOf(
-                arrayOf(0.0, ConditionNums.spectralCr(A), ConditionNums.ortegaCr(A), ConditionNums.angularCr(A)),
-                arrayOf(variation[0, 0], ConditionNums.spectralCr(Av), ConditionNums.ortegaCr(Av), ConditionNums.angularCr(Av))
+                arrayOf(0.0, spectralCr(A), ortegaCr(A), angularCr(A)),
+                arrayOf(variation[0, 0], spectralCr(Av), ortegaCr(Av), angularCr(Av))
             )
             val table = TextTable(header, data)
             table.printTable()
