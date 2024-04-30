@@ -39,5 +39,8 @@ class MatrixGenerator private constructor() {
         val lebedevaBVector = Vector.fromArray(
             doubleArrayOf(-0.527466, 2.526877, 5.165441)
         )
+
+        val hitriyA = Matrix.from1DArray(2, 2, doubleArrayOf(1.0, 0.99, 0.99, 0.98))
+        val hitriyB = Vector.fromArray(doubleArrayOf(2.0, 2.0))
     }
 }

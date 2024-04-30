@@ -75,11 +75,19 @@ fun lebedevaMatrixTest() {
     performCalculations(A, variation, b)
 }
 
+fun hitraiaMatrixTest() {
+    val A = MatrixGenerator.hitriyA
+    val variation = Matrix.constant(2, 2, 1e-2 - 1e-10)
+    val b = MatrixGenerator.hitriyB
+    performCalculations(A, variation, b)
+}
+
 fun tests() {
     hilbert2x2MatrixTest()
     hilbert8x8MatrixTest()
     tridiagonal6x6MatrixTest()
     lebedevaMatrixTest()
+    hitraiaMatrixTest()
 }
 
 fun main(args: Array<String>) {
