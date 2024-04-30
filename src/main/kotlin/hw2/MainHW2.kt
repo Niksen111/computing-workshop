@@ -17,7 +17,7 @@ fun criteriaComputation(A: Matrix) {
     println()
 }
 
-fun performKekLol(A: Matrix, b: Vector) {
+fun performComputation(A: Matrix, b: Vector) {
     println("Матрица A:")
     println(A)
 
@@ -50,16 +50,21 @@ fun performKekLol(A: Matrix, b: Vector) {
     println(XA)
     println()
 
-    println("Решение системы с использование метода Холецкого:")
-    val XL = GaussianSolver(L).solve(b)
+    println("Решение системы L*y=b:")
+    val YL = GaussianSolver(L).solve(b)
+    println(YL)
+    println()
+
+    println("Решение системы L^T*x=b:")
+    val XL = GaussianSolver(L.transpose()).solve(YL)
     println(XL)
     println()
 
     if (XA.equals(XL)) {
-        println("Матрицы совпадают!")
+        println("Решения совпадают!")
     }
     else {
-        println("Матрицы не совпадают :(")
+        println("Решения не совпадают :(")
     }
     println()
     println()
@@ -68,25 +73,25 @@ fun performKekLol(A: Matrix, b: Vector) {
 fun m1Test() {
     val A = LUDecomposition.A1
     val b = LUDecomposition.b1
-    performKekLol(A, b)
+    performComputation(A, b)
 }
 
 fun m2Test() {
     val A = LUDecomposition.A2
     val b = LUDecomposition.b2
-    performKekLol(A, b)
+    performComputation(A, b)
 }
 
 fun m3Test() {
     val A = LUDecomposition.A3
     val b = LUDecomposition.b3
-    performKekLol(A, b)
+    performComputation(A, b)
 }
 
 fun m4Test() {
     val A = LUDecomposition.A4
     val b = LUDecomposition.b4
-    performKekLol(A, b)
+    performComputation(A, b)
 }
 
 fun tests() {

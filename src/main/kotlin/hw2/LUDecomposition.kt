@@ -34,28 +34,7 @@ class LUDecomposition private constructor() {
             return L
         }
 
-        fun sqrtMethod2(matrix: Matrix): Matrix {
-            require(Matrices.SYMMETRIC_MATRIX.test(matrix)) { "Матрица должна быть симметричной!" }
-            val N = matrix.rows()
-            val L: Matrix = Matrix.zero(N, N)
-            for (i in 0..<N) {
-                for (j in 0..i) {
-                    var sum = matrix[i, j]
-                    for (k in 0..<j) {
-                        sum -= (L[i, k] * L[j,k])
-                    }
 
-                    if (i == j) {
-                        L[i, j] = sqrt(sum)
-                    }
-                    else {
-                        L[i, j] = sum / L[j, j]
-                    }
-                }
-            }
-
-            return L
-        }
 
         val A1 = Matrix.from2DArray(arrayOf(
             doubleArrayOf(4.0, 3.0, 2.0),
