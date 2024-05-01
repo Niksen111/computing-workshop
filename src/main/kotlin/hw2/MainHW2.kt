@@ -2,20 +2,10 @@ package hw2
 
 import dnl.utils.text.table.TextTable
 import hw1.ConditionNums
+import hw1.ConditionNums.Companion.criteriaComputation
 import org.la4j.Matrix
 import org.la4j.Vector
 import org.la4j.linear.GaussianSolver
-
-fun criteriaComputation(A: Matrix) {
-    println("Качественные критерии:")
-    val header = arrayOf("Варьирование", "Спектральный", "Объемный", "Угловой")
-    val data = arrayOf(
-        arrayOf(0.0, ConditionNums.spectralCr(A), ConditionNums.ortegaCr(A), ConditionNums.angularCr(A)),
-    )
-    val table = TextTable(header, data)
-    table.printTable()
-    println()
-}
 
 fun performComputation(A: Matrix, b: Vector) {
     println("Матрица A:")

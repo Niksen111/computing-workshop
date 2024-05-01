@@ -25,6 +25,17 @@ class ConditionNums private constructor() {
             println()
         }
 
+        fun criteriaComputation(A: Matrix) {
+            println("Качественные критерии:")
+            val header = arrayOf("Спектральный", "Объемный", "Угловой")
+            val data = arrayOf(
+                arrayOf(spectralCr(A), ortegaCr(A), angularCr(A)),
+            )
+            val table = TextTable(header, data)
+            table.printTable()
+            println()
+        }
+
         fun spectralCr(matrix: Matrix): Double {
             val inverted = InverterFactory.NO_PIVOT_GAUSS.create(matrix).inverse()
             return abs(matrix.determinant() * inverted.determinant())
