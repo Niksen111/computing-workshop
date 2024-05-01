@@ -1,7 +1,5 @@
 package hw2
 
-import dnl.utils.text.table.TextTable
-import hw1.ConditionNums
 import hw1.ConditionNums.Companion.criteriaComputation
 import org.la4j.Matrix
 import org.la4j.Vector

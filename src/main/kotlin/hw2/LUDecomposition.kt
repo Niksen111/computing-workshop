@@ -20,14 +20,11 @@ class LUDecomposition private constructor() {
                         }
                     }
 
-                    if (i == j) {
-                        sum = sqrt(A[i, j] - sum)
+                    L[i, j] = if (i == j) {
+                        sqrt(A[i, j] - sum)
+                    } else {
+                        (A[i, j] - sum) / L[j, j]
                     }
-                    else {
-                        sum = (A[i, j] - sum) / L[j, j]
-                    }
-
-                    L[i, j] = sum
                 }
             }
 

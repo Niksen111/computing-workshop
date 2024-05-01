@@ -1,6 +1,5 @@
 package hw1
 
-import dnl.utils.text.table.TextTable
 import org.la4j.LinearAlgebra.SolverFactory
 import org.la4j.Matrix
 import org.la4j.Vector
@@ -90,7 +89,7 @@ fun tests() {
     hitraiaMatrixTest()
 }
 
-fun main(args: Array<String>) {
+fun main() {
     println("Вычислительный практикум")
     println("Выполнил: Ксенчик Никита")
     println("Задача 1:")
