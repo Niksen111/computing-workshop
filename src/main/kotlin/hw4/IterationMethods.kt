@@ -12,37 +12,37 @@ class IterationMethods private constructor() {
             val H = Matrix.zero(n, n)
             val g = Vector.zero(n)
             for (i in 0..<n) {
-                g[i] = b[i] / A[i, i]
                 for (j in 0..<n) {
                     if (i != j) {
-                        H[i, j] = - A[i, j] / A[i, i]
+                        H[i, j] = - (A[i, j] / A[i, i])
                     }
                 }
+
+                g[i] = b[i] / A[i, i]
             }
 
             return Pair(H, g)
         }
 
-        fun simpleIterationMethod(H: Matrix, g: Vector, e: Double): Pair<Vector, Int> {
+        fun simpleIterationMethod(H: Matrix, g: Vector, eps: Double): Pair<Vector, Int> {
             val n = H.rows()
-            val eval = H.norm() / (1 - H.norm())
-            var x = Vector.zero(n)
+            val evaluation = H.norm() / (1 - H.norm())
+            var xk = Vector.zero(n)
             var k = 1
-            var xk = H.multiply(x).add(g)
-            var tmp = xk.subtract(x)
-            var check = eval * tmp.norm()
-            while (abs(check) > e) {
-                x = xk.copy()
-                xk = H.multiply(x).add(g)
-                tmp = xk.subtract(x)
-                check = eval * tmp.norm()
+            while (true) {
+                val xkNext = H.multiply(xk).add(g)
+                if (abs(evaluation * (xkNext.subtract(xk)).norm()) < eps) {
+                    break
+                }
+
+                xk = xkNext.copy()
                 k++
             }
 
             return Pair(xk, k)
         }
 
-        fun zeidelMethod(H: Matrix, g: Vector, e: Double): Pair<Vector, Int> {
+        fun zeidelMethod(H: Matrix, g: Vector, eps: Double): Pair<Vector, Int> {
             val n = H.rows()
             val hl = Matrix.zero(n, n)
             val hr = Matrix.zero(n, n)
@@ -50,34 +50,30 @@ class IterationMethods private constructor() {
             for (i in 0..<n) {
                 for (j in 0..<n) {
                     if (i > j) {
-                        hr[i, j] = H[i, j]
+                        hl[i, j] = H[i, j]
                     }
                     else {
-                        hl[i, j] = H[i, j]
+                        hr[i, j] = H[i, j]
                     }
                 }
             }
 
-            val eval = H.norm() / (1 - H.norm())
+            val evaluation = H.norm() / (1 - H.norm())
+            val eMinusHlInverted = GaussJordanInverter(E.subtract(hl)).inverse()
+            var k = 1
+            var xk = Vector.zero(n)
+            var xkNext: Vector
+            while (true) {
+                xkNext = eMinusHlInverted.multiply(hr).multiply(xk).add(eMinusHlInverted.multiply(g))
+                if (abs(evaluation * (xkNext.subtract(xk)).norm()) < eps) {
+                    break
+                }
 
-            val tmpInv = GaussJordanInverter(E.subtract(hl)).inverse()
-            val constAdd = tmpInv.multiply(g)
-            var tmpMat: Matrix
-            var x: Vector
-            var xk = constAdd.copy()
-            var tmp = xk.copy()
-            var check = eval * tmp.norm()
-            var k = 0
-            while (abs(check) > e) {
-                x = xk.copy()
-                tmpMat = tmpInv.multiply(hr)
-                xk = tmpMat.multiply(x).add(constAdd)
-                tmp = xk.subtract(x)
-                check = eval * tmp.norm()
+                xk = xkNext.copy()
                 k++
             }
 
-            return Pair(xk, k)
+            return Pair(xkNext, k)
         }
     }
 }
