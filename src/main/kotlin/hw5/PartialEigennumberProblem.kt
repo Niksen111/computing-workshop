@@ -2,7 +2,6 @@ package hw5
 
 import org.la4j.Matrix
 import org.la4j.Vector
-import kotlin.math.abs
 import kotlin.math.sqrt
 
 class PartialEigennumberProblem private constructor() {
@@ -30,10 +29,11 @@ class PartialEigennumberProblem private constructor() {
         fun scalarProductMethod(A: Matrix, b: Vector, c: Vector, eps: Double): Triple<Double, Vector, Int> {
             var xk = b.copy()
             var yk = c.copy()
-            var k = 0
+            val AT = A.transpose()
+            var k = 1
             while (true) {
                 var xkNext = A.multiply(xk)
-                var ykNext = A.multiply(yk)
+                var ykNext = AT.multiply(yk)
                 val eigennumber = xkNext.innerProduct(ykNext) / xk.innerProduct(ykNext)
                 val aposteriorError = (xkNext.subtract(xk.multiply(eigennumber))).norm() / xk.norm()
                 if (xkNext.norm() > 100) {
