@@ -3,7 +3,6 @@ package hw4
 import hw1.ConditionNums
 import hw1.MatrixGenerator
 import hw2.LUDecomposition
-import hw3.RotationMethod
 import org.la4j.LinearAlgebra
 import org.la4j.Matrix
 import org.la4j.Vector
