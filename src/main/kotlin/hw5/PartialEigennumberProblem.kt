@@ -13,7 +13,7 @@ class PartialEigennumberProblem private constructor() {
                 var xkNext = A.multiply(xk)
                 val eigennumber = sqrt(xkNext.innerProduct(xkNext) / xk.innerProduct(xk))
                 val aposteriorError = (xkNext.subtract(xk.multiply(eigennumber))).norm() / xk.norm()
-                if (xkNext.norm() > 100) {
+                if (xkNext.norm() > 777) {
                     xkNext = xkNext.divide(xkNext.norm())
                 }
 
@@ -36,11 +36,11 @@ class PartialEigennumberProblem private constructor() {
                 var ykNext = AT.multiply(yk)
                 val eigennumber = xkNext.innerProduct(ykNext) / xk.innerProduct(ykNext)
                 val aposteriorError = (xkNext.subtract(xk.multiply(eigennumber))).norm() / xk.norm()
-                if (xkNext.norm() > 100) {
+                if (xkNext.norm() > 777) {
                     xkNext = xkNext.divide(xkNext.norm())
                 }
 
-                if (ykNext.norm() > 100) {
+                if (ykNext.norm() > 777) {
                     ykNext = ykNext.divide(ykNext.norm())
                 }
 

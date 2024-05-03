@@ -4,6 +4,7 @@ import hw1.ConditionNums
 import hw1.MatrixGenerator
 import hw2.LUDecomposition
 import org.la4j.LinearAlgebra
+import org.la4j.LinearAlgebra.InverterFactory
 import org.la4j.Matrix
 import org.la4j.Vector
 
@@ -32,6 +33,9 @@ fun performComputation(A: Matrix, b: Vector) {
 
     println("Матрица Q:")
     println(xqr.Q)
+
+    println("Q * Q^T :")
+    println(xqr.Q.multiply(InverterFactory.SMART.create(xqr.Q).inverse()))
 
     println("Критерии матрицы Q:")
     ConditionNums.criteriaComputation(xqr.Q)
