@@ -25,4 +25,9 @@ public class Segment {
     public void setRight(double right) {
         this.right = right;
     }
+
+    @Override
+    public String toString() {
+        return "[" + left + "; " + right + "]";
+    }
 }

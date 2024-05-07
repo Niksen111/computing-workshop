@@ -1,7 +1,6 @@
 package hw6;
 
 import kotlin.Pair;
-import org.apache.commons.lang.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 import org.la4j.Matrix;
 import org.la4j.Vector;
@@ -28,11 +27,11 @@ public class FullEigennumberProblem {
 
     @NotNull
     public static Matrix getRotationMatrix(@NotNull Matrix A, int i, int j) {
-        double fi = 0.0;
-        if (abs(A.get(i, i) - A.get(j, j)) < 1e-15) {
+        double fi;
+        if (abs(A.get(i, i) - A.get(j, j)) < 1e-14) {
             fi = Math.PI / 4;
         } else {
-            fi = Math.atan(-2 * A.get(i, j) / (A.get(i, i) - A.get(j, j))) / 2;
+            fi = Math.atan(-2 * A.get(i, j) / (A.get(i, i) - A.get(j, j)));
         }
 
         var cosFi = cos(fi);
@@ -48,7 +47,6 @@ public class FullEigennumberProblem {
 
     @NotNull
     public static Pair<Vector, Integer> getEigennumbers(@NotNull Matrix matrix, double eps, ZeroingMethod method) {
-        final var n = matrix.rows();
         var matrixAccumulator = new MatrixAccumulator() {
             double sum = 0.0;
             @Override
@@ -70,6 +68,7 @@ public class FullEigennumberProblem {
             var coords = method.getZeroingIndexes(A);
             var T = getRotationMatrix(A, coords.getFirst(), coords.getSecond());
             A = T.transpose().multiply(A).multiply(T);
+            matrixAccumulator.sum = 0;
             ++k;
         }
 
@@ -102,32 +101,22 @@ public class FullEigennumberProblem {
     }
 
     interface ZeroingMethod {
-        public Pair<Integer, Integer> getZeroingIndexes(Matrix A);
+        Pair<Integer, Integer> getZeroingIndexes(Matrix A);
     }
 
     static final class MaxElementMethod implements ZeroingMethod {
         @Override
         public Pair<Integer, Integer> getZeroingIndexes(@NotNull Matrix A) {
-            double maxMod = 0.0;
             Pair<Integer, Integer> maxCoords = new Pair<>(0, 1);
             for (int i = 0; i < A.rows(); i++) {
                 for (int j = 0; j < A.rows(); j++) {
-                    if (i != j && abs(A.get(i, j)) > maxMod) {
-                        maxMod = A.get(i, j);
+                    if (i != j && abs(A.get(i, j)) > abs(A.get(maxCoords.getFirst(), maxCoords.getSecond()))) {
                         maxCoords = new Pair<>(i, j);
                     }
                 }
             }
 
             return maxCoords;
-        }
-    }
-
-    static final class OptimalElementMethod implements ZeroingMethod {
-
-        @Override
-        public Pair<Integer, Integer> getZeroingIndexes(Matrix A) {
-            throw new NotImplementedException();
         }
     }
 }
